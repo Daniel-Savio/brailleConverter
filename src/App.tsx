@@ -7,7 +7,7 @@ import './app.css';
 function App() {
   const [text, setText] = useState<String>('Default');
   const [fontSize, setFontSize] = useState<Number>(50);
-  const componentRef = useRef<HTMLDivElement>(null);
+  const componentRef = useRef<HTMLDivElement>(null)!;
 
   const handleGeneratePdf = () => {
     const doc = new jsPDF({
@@ -15,8 +15,7 @@ function App() {
       orientation: 'landscape',
     });
 
-    //PAREI AQUI
-    // Adding the fonts.
+   
     doc.addFileToVFS("Braile.ttf", font)
     doc.addFont("Braile.ttf", "Braile", "normal");
     doc.setFont("Braile")
@@ -56,8 +55,11 @@ function App() {
         </div>
         <div className='mt-4 flex gap-3' id="editing">
           <div id="tool-font-size">
-            <label className="block text-center text-sm font-medium">Tamanho da fonte</label>
-            <input type="range" className=' w-full text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg' />
+            <label className="block text-center text-sm font-medium mb-3 ">Tamanho da fonte</label> 
+            <div className='flex flex-row gap-4 align-middle'>
+              <span className=' bg-blue-400 font-bold p-1 rounded-md text-slate-100'>{fontSize} </span>
+              <input type="range" className='m-auto w-full text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg' value={fontSize} onChange={(e)=>{setFontSize(e.target.value)}}/> 
+            </div>
           </div>
 
           <div id="tool-bg-color">
