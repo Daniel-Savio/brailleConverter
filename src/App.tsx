@@ -3,49 +3,61 @@ import jsPDF from 'jspdf';
 import { font } from './components/BraileFont';
 import './app.css';
 
-
 function App() {
   const [text, setText] = useState<String>('Default');
-  const [fontSize, setFontSize] = useState<Number>(50);
+  const [textSize, setTextSize] = useState<number | string>(64);
+  const [bgColor, setBgColor] = useState<string>("#cbd5e1");
   const componentRef = useRef<HTMLDivElement>(null)!;
 
   const handleGeneratePdf = () => {
+
     const doc = new jsPDF({
       unit: 'px',
-      orientation: 'landscape',
+      orientation: 'l'
+
     });
 
-   
+    // adiciona a fonte Braille ao documento
     doc.addFileToVFS("Braile.ttf", font)
     doc.addFont("Braile.ttf", "Braile", "normal");
     doc.setFont("Braile")
-
 
     doc.html(componentRef.current!, {
       async callback(doc) {
         await doc.save('document');
       },
     });
+
   };
 
-  const handleFontSize = () =>{
-    
-  }
+
 
   return (
-    <main className=' bg-slate-50 h-screen w-screen flex flex-col items-center justify-center'>
-      <h1 className="text-3xl font-bold text-center underline w-full">
-        Planeta acessível
-      </h1>
 
-      <div ref={componentRef} className='flex flex-col items-center justify-center bg-slate-300 w-2/4 h-80 rounded-md drop-shadow-lg'>
-        <input className='text-gray-900 text-2xl rounded-lg text-center focus:outline-none bg-transparent block  ' type="text" name="text" id="text" placeholder='text' onChange={(e) => { setText(e.target.value) }} />
-        <br />
-        <br />
-        <span className='leading-[4rem] m-4 break-all font-secondary text-center text-5xl'> {text}</span>
-      </div>
+    
+    <main className=' bg-slate-50 h-screen w-screen flex flex-col items-center justify-center'>
+      <header className=' w-full '>
+        <img src="../../public/icon.png" alt="" className='justify-start w-16 ml-2 mt-2' />
+        <h1 className="text-3xl font-bold text-center ">
+          Placa em Braile
+        </h1>
+     
+
+      </header>
+      
+      
       <br />
-      <div className='flex flex-col' id="tools">
+
+      <div style={{ width: "650px", height: "446px", backgroundColor: bgColor }} ref={componentRef} className='flex flex-col items-center justify-center drop-shadow-lg'>
+        <input className='text-gray-900 text-2xl rounded-lg text-center focus:outline-none bg-transparent block' type="text" name="text" id="text" placeholder='text' onChange={(e) => { setText(e.target.value) }} />
+        <br />
+        <br />
+        <span className="leading-[5rem] m-4 break-all font-secondary text-center" style={{ fontSize: `${textSize}px` }}> {text}</span>
+      </div>
+
+      <br />
+
+      <div className='flex flex-col gap-2' id="tools">
         <div className='flex justify-center' id="buttons">
           <button
             onClick={() => handleGeneratePdf()}
@@ -53,21 +65,24 @@ function App() {
             Baixar PDF
           </button>
         </div>
-        <div className='mt-4 flex gap-3' id="editing">
+        <div className='mt-4 flex gap-8' id="editing">
+
           <div id="tool-font-size">
-            <label className="block text-center text-sm font-medium mb-3 ">Tamanho da fonte</label> 
+            <label className="block text-center text-sm font-medium mb-3 ">Tamanho da fonte em Braile</label>
             <div className='flex flex-row gap-4 align-middle'>
-              <span className=' bg-blue-400 font-bold p-1 rounded-md text-slate-100'>{fontSize} </span>
-              <input type="range" className='m-auto w-full text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg' value={fontSize} onChange={(e)=>{setFontSize(e.target.value)}}/> 
+              <input type='number' inputMode='numeric' maxLength={3} className='appearance-none bg-blue-400 font-bold p-1 focus:outline-none w-12 text-center rounded-md text-slate-100' onChange={(e) => { setTextSize(e.target.value) }} value={textSize} />
+              <input type="range" className='m-auto text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg' min={16} step={4} max={112} value={textSize} onChange={(e) => { setTextSize(e.target.value) }} />
             </div>
           </div>
 
           <div id="tool-bg-color">
-            
+            <label className="block text-center text-sm font-medium mb-3 ">Cor de fundo</label>
+            <input className='cursor-pointer center text-center' type="color" name="color" id="color" value={bgColor} onChange={(e) => { setBgColor(e.target.value) }} />
           </div>
-
         </div>
       </div>
+
+      <br />
 
 
     </main>
