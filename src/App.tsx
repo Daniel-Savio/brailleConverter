@@ -4,7 +4,7 @@ import { font } from './components/BraileFont';
 import './app.css';
 
 function App() {
-  const [text, setText] = useState<String>('Default');
+  const [text, setText] = useState<String>('');
   const [textSize, setTextSize] = useState<number | string>(64);
   const [bgColor, setBgColor] = useState<string>("#cbd5e1");
   const [fontColor, setFontColor] = useState<string>("#040404");
