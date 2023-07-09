@@ -7,6 +7,7 @@ function App() {
   const [text, setText] = useState<String>('Default');
   const [textSize, setTextSize] = useState<number | string>(64);
   const [bgColor, setBgColor] = useState<string>("#cbd5e1");
+  const [fontColor, setFontColor] = useState<string>("#040404");
   const componentRef = useRef<HTMLDivElement>(null)!;
 
   const handleGeneratePdf = () => {
@@ -36,28 +37,34 @@ function App() {
 
     
     <main className=' bg-slate-50 h-screen w-screen flex flex-col items-center justify-center'>
+
+      {/* Header */}
       <header className=' w-full '>
+
         <img src="../../public/icon.png" alt="" className='justify-start w-16 ml-2 mt-2' />
         <h1 className="text-3xl font-bold text-center ">
           Placa em Braile
         </h1>
-     
 
       </header>
       
       
       <br />
 
+      {/* Plate */}
       <div style={{ width: "650px", height: "446px", backgroundColor: bgColor }} ref={componentRef} className='flex flex-col items-center justify-center drop-shadow-lg'>
-        <input className='text-gray-900 text-2xl rounded-lg text-center focus:outline-none bg-transparent block' type="text" name="text" id="text" placeholder='text' onChange={(e) => { setText(e.target.value) }} />
+        <input style={{color: fontColor}} className='text-2xl rounded-lg text-center focus:outline-none bg-transparent block' type="text" name="text" id="text" placeholder='text' onChange={(e) => { setText(e.target.value) }} />
         <br />
-        <br />
-        <span className="leading-[5rem] m-4 break-all font-secondary text-center" style={{ fontSize: `${textSize}px` }}> {text}</span>
+        
+        <span  className="leading-[5rem] m-4 break-all font-secondary text-center" style={{ fontSize: `${textSize}px`, color: fontColor }}> {text}</span>
       </div>
 
       <br />
 
+      {/* Tool Bar */}
       <div className='flex flex-col gap-2' id="tools">
+
+        {/* Buttons */}
         <div className='flex justify-center' id="buttons">
           <button
             onClick={() => handleGeneratePdf()}
@@ -65,8 +72,9 @@ function App() {
             Baixar PDF
           </button>
         </div>
-        <div className='mt-4 flex gap-8' id="editing">
 
+        {/* Tools */}
+        <div className='mt-4 flex gap-8' id="editing">
           <div id="tool-font-size">
             <label className="block text-center text-sm font-medium mb-3 ">Tamanho da fonte em Braile</label>
             <div className='flex flex-row gap-4 align-middle'>
@@ -75,10 +83,19 @@ function App() {
             </div>
           </div>
 
+          {/* Background color */}
           <div id="tool-bg-color">
             <label className="block text-center text-sm font-medium mb-3 ">Cor de fundo</label>
             <input className='cursor-pointer center text-center' type="color" name="color" id="color" value={bgColor} onChange={(e) => { setBgColor(e.target.value) }} />
           </div>
+
+          {/* Font color */}
+          <div id="tool-font-color">
+            <label className="block text-center text-sm font-medium mb-3 ">Cor da fonte</label>
+            <input className='cursor-pointer center text-center' type="color" name="color" id="color" value={fontColor} onChange={(e) => { setFontColor(e.target.value) }} />
+          </div>
+
+
         </div>
       </div>
 
