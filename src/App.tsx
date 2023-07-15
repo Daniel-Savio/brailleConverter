@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react'
 import jsPDF from 'jspdf';
 import { font } from './components/BraileFont';
-import './app.css';
 
 function App() {
   const [text, setText] = useState<String>('');
@@ -31,6 +30,10 @@ function App() {
 
   };
 
+  function handleText(text:string) {
+    setText(text) 
+  }
+
 
 
   return (
@@ -53,7 +56,7 @@ function App() {
 
       {/* Plate */}
       <div style={{ width: "650px", height: "446px", backgroundColor: bgColor }} ref={componentRef} className='flex flex-col items-center justify-center drop-shadow-lg'>
-        <input style={{color: fontColor}} className='text-2xl rounded-lg text-center focus:outline-none bg-transparent block' type="text" name="text" id="text" placeholder='text' onChange={(e) => { setText(e.target.value) }} />
+        <input style={{color: fontColor}} className='text-2xl rounded-lg text-center focus:outline-none bg-transparent block' type="text" name="text" id="text" placeholder='text' onChange={(e) => { handleText(e.target.value)}} />
         <br />
         
         <span  className="leading-[5rem] m-4 break-all font-secondary text-center" style={{ fontSize: `${textSize}px`, color: fontColor }}> {text}</span>
