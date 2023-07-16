@@ -3,7 +3,7 @@ import jsPDF from "jspdf";
 import { font } from "./components/BraileFont";
 
 function App() {
-  const [text, setText] = useState<string>("");
+ 
 
   const [braille, setBraille] = useState<string>("");
   const [textSize, setTextSize] = useState<number | string>(64);
