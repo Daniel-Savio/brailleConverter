@@ -4,10 +4,15 @@ import { font } from './components/BraileFont';
 
 function App() {
   const [text, setText] = useState<String>('');
+  const [braille, setBraille] = useState<String>('');
   const [textSize, setTextSize] = useState<number | string>(64);
   const [bgColor, setBgColor] = useState<string>("#cbd5e1");
   const [fontColor, setFontColor] = useState<string>("#040404");
   const componentRef = useRef<HTMLDivElement>(null)!;
+
+  // Contadores
+  let [lower, setLower] = useState<number>(0);
+  let [upper, setUpper] = useState<number>(0);
 
   const handleGeneratePdf = () => {
 
@@ -31,7 +36,18 @@ function App() {
   };
 
   function handleText(text:string) {
-    setText(text) 
+    let brailleArray: any = []
+    for (let i = 0; i < text.length; i++) {
+      brailleArray.push(text[i])
+      if(text[i] >= "A" && text[i] <= "Z"){
+        brailleArray.push("*"+ text[i])
+        setUpper(upper++)
+      }
+      
+    }
+    let stringBraille = brailleArray.toString()
+
+    setBraille(stringBraille.replaceAll(",","")) 
   }
 
 
@@ -59,7 +75,7 @@ function App() {
         <input style={{color: fontColor}} className='text-2xl rounded-lg text-center focus:outline-none bg-transparent block' type="text" name="text" id="text" placeholder='text' onChange={(e) => { handleText(e.target.value)}} />
         <br />
         
-        <span  className="leading-[5rem] m-4 break-all font-secondary text-center" style={{ fontSize: `${textSize}px`, color: fontColor }}> {text}</span>
+        <span  className="leading-[5rem] m-4 break-all font-secondary text-center" style={{ fontSize: `${textSize}px`, color: fontColor }}> {braille}</span>
       </div>
 
       <br />
