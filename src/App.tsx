@@ -3,16 +3,17 @@ import jsPDF from 'jspdf';
 import { font } from './components/BraileFont';
 
 function App() {
-  const [text, setText] = useState<String>('');
-  const [braille, setBraille] = useState<String>('');
+  const [text, setText] = useState<string>('');
+
+  const [braille, setBraille] = useState<string>('');
   const [textSize, setTextSize] = useState<number | string>(64);
   const [bgColor, setBgColor] = useState<string>("#cbd5e1");
   const [fontColor, setFontColor] = useState<string>("#040404");
   const componentRef = useRef<HTMLDivElement>(null)!;
 
   // Contadores
-  let [lower, setLower] = useState<number>(0);
-  let [upper, setUpper] = useState<number>(0);
+  const [number, setNumber] = useState<number>(0);
+  const [upper, setUpper] = useState<number>(0);
 
   const handleGeneratePdf = () => {
 
@@ -36,17 +37,32 @@ function App() {
   };
 
   function handleText(text:string) {
-    let brailleArray: any = []
+    const brailleArray: any = []
+
+    const uppercaseRegex = /[A-Z]/g;
+    const uppercaseLetters = text.match(uppercaseRegex);
+    setUpper( uppercaseLetters ? uppercaseLetters.length : 0)
+
+    const numberRegex = /[0-9]/g;
+    const numberCharacter = text.match(numberRegex);
+    setNumber( numberCharacter ? numberCharacter.length : 0)
+
+    // ? Percorre toda a string para procurar por maísculas e números
     for (let i = 0; i < text.length; i++) {
       brailleArray.push(text[i])
+      // ? Se achar uma maíscula, coloca um asterísco antes, que funciona como indicador na fonte em Braile
       if(text[i] >= "A" && text[i] <= "Z"){
         brailleArray.push("*"+ text[i])
-        setUpper(upper++)
       }
-      
     }
-    let stringBraille = brailleArray.toString()
 
+
+    if(text === text.toUpperCase()){
+      const stringBraille = brailleArray.toString()
+      setBraille("**" + stringBraille.replaceAll(",","")) 
+    }
+
+    const stringBraille = brailleArray.toString()
     setBraille(stringBraille.replaceAll(",","")) 
   }
 
@@ -94,6 +110,7 @@ function App() {
 
         {/* Tools */}
         <div className='mt-4 flex gap-8' id="editing">
+
           <div id="tool-font-size">
             <label className="block text-center text-sm font-medium mb-3 ">Tamanho da fonte em Braile</label>
             <div className='flex flex-row gap-4 align-middle'>
@@ -114,8 +131,17 @@ function App() {
             <input className='cursor-pointer center text-center' type="color" name="color" id="color" value={fontColor} onChange={(e) => { setFontColor(e.target.value) }} />
           </div>
 
+          <div id="counters">
+            <h2 className="block text-center text-sm font-medium mb-3 ">Contadores</h2>
+            <div className='flex flex-row gap-4 align-middle'>
+              <span className='text-center'> Números <b className='bg-blue-400 font-bold rounded-md p-1 text-slate-100'>{number}</b> </span>
+              <span className='text-center'> Maiúsculas <b className='bg-blue-400 font-bold rounded-md p-1 text-slate-100'>{upper}</b> </span>
+  
+          </div>
+
 
         </div>
+      </div>
       </div>
 
       <br />
