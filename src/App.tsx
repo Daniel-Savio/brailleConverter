@@ -6,7 +6,7 @@ function App() {
  
 
   const [braille, setBraille] = useState<string>("");
-  const [textSize, setTextSize] = useState<number | string>(64);
+  const [textSize, setTextSize] = useState<number | string>(24);
   const [bgColor, setBgColor] = useState<string>("#cbd5e1");
   const [fontColor, setFontColor] = useState<string>("#040404");
   const componentRef = useRef<HTMLDivElement>(null)!;
@@ -14,6 +14,7 @@ function App() {
   // Contadores
   const [number, setNumber] = useState<number>(0);
   const [upper, setUpper] = useState<number>(0);
+  const [spaces, setSpaces] = useState<number>(0);
 
   const handleGeneratePdf = () => {
     const doc = new jsPDF({
@@ -44,6 +45,10 @@ function App() {
     const numberCharacter = text.match(numberRegex);
     setNumber(numberCharacter ? numberCharacter.length : 0);
 
+    const blankspacesRegex = /[\s]/g;
+    const numberBlankspaces = text.match(blankspacesRegex);
+    setSpaces(numberBlankspaces ? numberBlankspaces.length : 0);
+
     const uppercaseOnlyRegex = /^[A-Z]+$/;
     if (uppercaseOnlyRegex.test(text)) {
       brailleArray.push("**");
@@ -55,8 +60,6 @@ function App() {
       brailleArray.push("$");
       brailleArray.push(text);
     } 
-
-
 
     brailleArray.push(text);
     const stringBraille = brailleArray.toString();
@@ -84,7 +87,7 @@ function App() {
         className="flex flex-col items-center justify-center drop-shadow-lg"
       >
         <input
-          style={{ color: fontColor }}
+          style={{ color: fontColor, fontSize: `${textSize}px`}}
           className="text-2xl rounded-lg text-center focus:outline-none bg-transparent block"
           type="text"
           name="text"
@@ -97,8 +100,8 @@ function App() {
         <br />
 
         <span
+          style={{fontSize: `15mm`}}
           className="leading-[5rem] m-4 break-all font-secondary text-center"
-          style={{ fontSize: `${textSize}px`, color: fontColor }}
         >
           {" "}
           {braille}
@@ -123,7 +126,7 @@ function App() {
         <div className="mt-4 flex gap-8" id="editing">
           <div id="tool-font-size">
             <label className="block text-center text-sm font-medium mb-3 ">
-              Tamanho da fonte em Braile
+              Tamanho da fonte
             </label>
             <div className="flex flex-row gap-4 align-middle">
               <input
@@ -189,6 +192,7 @@ function App() {
               Contadores
             </h2>
             <div className="flex flex-row gap-4 align-middle">
+              {/* Number counter display */}
               <span className="text-center">
                 {" "}
                 Números{" "}
@@ -196,11 +200,20 @@ function App() {
                   {number}
                 </b>{" "}
               </span>
+              {/* Uppercase counter display*/}
               <span className="text-center">
                 {" "}
                 Maiúsculas{" "}
                 <b className="bg-blue-400 font-bold rounded-md p-1 text-slate-100">
                   {upper}
+                </b>{" "}
+              </span>
+              {/* Blanck spaces counter display */}
+              <span className="text-center">
+                {" "}
+                Espaços{" "}
+                <b className="bg-blue-400 font-bold rounded-md p-1 text-slate-100">
+                  {spaces}
                 </b>{" "}
               </span>
             </div>
