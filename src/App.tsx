@@ -15,6 +15,7 @@ function App() {
   const [number, setNumber] = useState<number>(0);
   const [upper, setUpper] = useState<number>(0);
   const [spaces, setSpaces] = useState<number>(0);
+  const [charecters, setCharecters] = useState<number>(0);
 
   const handleGeneratePdf = () => {
     const doc = new jsPDF({
@@ -64,6 +65,10 @@ function App() {
     brailleArray.push(text);
     const stringBraille = brailleArray.toString();
     setBraille(stringBraille.replaceAll(",", ""));
+
+    if(brailleArray.length > 0) {
+      setCharecters(brailleArray.length);
+    }
   }
 
   return (
@@ -214,6 +219,14 @@ function App() {
                 Espaços{" "}
                 <b className="bg-blue-400 font-bold rounded-md p-1 text-slate-100">
                   {spaces}
+                </b>{" "}
+              </span>
+              {/* All carachters counter display */}
+              <span className="text-center">
+                {" "}
+                Total de caracteres{" "}
+                <b className="bg-blue-400 font-bold rounded-md p-1 text-slate-100">
+                  {charecters}
                 </b>{" "}
               </span>
             </div>
