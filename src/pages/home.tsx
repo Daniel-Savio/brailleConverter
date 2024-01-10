@@ -54,6 +54,7 @@ export function Home() {
     const brailleArray: any = [];
     setPlainText(text);
 
+
     const uppercaseRegex = /[A-Z]/g;
     const uppercaseLetters = text.match(uppercaseRegex);
     setUpper(uppercaseLetters ? uppercaseLetters.length : 0);
@@ -67,6 +68,25 @@ export function Home() {
     const blankspacesRegex = /[\s]/g;
     const numberBlankspaces = text.match(blankspacesRegex);
     setSpaces(numberBlankspaces ? numberBlankspaces.length : 0);
+
+    if(braille.length < 20) {
+      setXlength('15')
+      setYlenght('8')
+    }
+    if(braille.length > 20 && braille.length < 26) {
+      setXlength('25')
+      setYlenght('8')
+    }
+
+    if(braille.length > 26 && braille.length < 40) {
+      setXlength('25')
+      setYlenght('18')
+    }
+
+    if(braille.length > 40) {
+      setXlength('25')
+      setYlenght('20')
+    }
 
     // ? Full uppercase phrases ? //
     if (text.length === upperQtd && text.length !== 0) {
@@ -121,7 +141,7 @@ export function Home() {
             {/* Normal Text input */}
             <input
               style={{ color: fontColor, fontSize: `${textSize}px` }}
-              className="text-2xl rounded-lg text-center focus:outline-none bg-transparent block"
+              className="text-2xl rounded-lg text-center w-full focus:outline-none bg-transparent block"
               type="text"
               name="text"
               id="text"
@@ -178,7 +198,7 @@ export function Home() {
                     type="range"
                     className="m-auto text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg"
                     min={16}
-                    step={4}
+                    step={1}
                     max={112}
                     value={textSize}
                     onChange={(e) => {
@@ -244,7 +264,7 @@ export function Home() {
                     type="range"
                     className="m-auto text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg"
                     min={16}
-                    step={2}
+                    step={1}
                     max={40}
                     onChange={(e) => {
                       setXlength(e.target.value);
@@ -274,7 +294,7 @@ export function Home() {
                     type="range"
                     className="m-auto text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg"
                     min={8}
-                    step={2}
+                    step={1}
                     max={30}
                     onChange={(e) => {
                       setYlenght(e.target.value);
