@@ -97,7 +97,18 @@ export function Home() {
         const letter = text.charAt(i);
         brailleArray.push(letter.toLowerCase());
       }
-      setBraille(brailleArray.toString().replaceAll(',', ''));
+      setBraille(brailleArray.toString().replaceAll(',', '')
+      .replaceAll('1°', 'Q')
+      .replaceAll('2°', 'W')
+      .replaceAll('3°', 'E')
+      .replaceAll('4°', 'R')
+      .replaceAll('5°', 'T')
+      .replaceAll('6°', 'Y')
+      .replaceAll('7°', 'U')
+      .replaceAll('8°', 'I')
+      .replaceAll('9°', 'O')
+      .replaceAll('0°', 'P')
+);
       return;
 
       
@@ -112,7 +123,18 @@ export function Home() {
           brailleArray.push(letter);
         }
       }
-      setBraille(brailleArray.toString().replaceAll(',', ''));
+      setBraille(brailleArray.toString().replaceAll(',', '')
+      .replaceAll('1°', 'Q')
+      .replaceAll('2°', 'W')
+      .replaceAll('3°', 'E')
+      .replaceAll('4°', 'R')
+      .replaceAll('5°', 'T')
+      .replaceAll('6°', 'Y')
+      .replaceAll('7°', 'U')
+      .replaceAll('8°', 'I')
+      .replaceAll('9°', 'O')
+      .replaceAll('0°', 'P')
+);
       return;
     }
 
@@ -122,7 +144,18 @@ export function Home() {
     }
 
     brailleArray.push(text);
-    setBraille(brailleArray.toString().replaceAll(',', ''));
+    setBraille(brailleArray.toString().replaceAll(',', '')
+                             .replaceAll('1°', 'Q')
+                             .replaceAll('2°', 'W')
+                             .replaceAll('3°', 'E')
+                             .replaceAll('4°', 'R')
+                             .replaceAll('5°', 'T')
+                             .replaceAll('6°', 'Y')
+                             .replaceAll('7°', 'U')
+                             .replaceAll('8°', 'I')
+                             .replaceAll('9°', 'O')
+                             .replaceAll('0°', 'P')
+    );
   }
 
   // ? HTML ? //
@@ -275,7 +308,7 @@ export function Home() {
                     className="m-auto text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg"
                     min={16}
                     step={1}
-                    max={40}
+                    max={200}
                     onChange={(e) => {
                       setXlength(e.target.value);
                     }}
@@ -305,7 +338,7 @@ export function Home() {
                     className="m-auto text-blue-600 appearance-none bg-blue-200 h-2 rounded-lg"
                     min={8}
                     step={1}
-                    max={30}
+                    max={200}
                     onChange={(e) => {
                       setYlenght(e.target.value);
                     }}
