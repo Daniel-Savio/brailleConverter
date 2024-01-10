@@ -8,11 +8,11 @@ export function Home() {
   const [textSize, setTextSize] = useState<number>(18);
   const [Xlenght, setXlength] = useState<number>(16);
   const [Ylenght, setYlenght] = useState<number>(8);
-  const [bgColor, setBgColor] = useState<string>('#cbd5e1');
-  const [fontColor, setFontColor] = useState<string>('rgb(4, 4, 4)');
+  const [bgColor, setBgColor] = useState<string>('rgb(203, 213, 225)');
+  const [fontColor, setFontColor] = useState<string>('rgb(17, 17, 17)');
   const componentRef = useRef<HTMLDivElement>(null)!;
 
-  console.log(fontColor)
+  console.log(fontColor);
 
   // Contadores
   const [number, setNumber] = useState<number>(0);
@@ -27,19 +27,24 @@ export function Home() {
     const doc = new jsPDF({
       unit: 'cm',
       orientation: 'l',
-      format: [Xlenght, Xlenght],
+      format: [Xlenght, Ylenght],
     });
 
     // adiciona a fonte Braille ao documento
     doc.addFileToVFS('Braile.ttf', font);
     doc.addFont('Braile.ttf', 'Braile', 'normal');
 
-    doc.setFont('courier');
+    doc.setFillColor(bgColor);
+    doc.rect(0, 0, Xlenght, Ylenght, "F");
+
+    doc.setFont('helvetica');
     doc.setFontSize(textSize);
-    // doc.setTextColor(150);
+    doc.setTextColor(fontColor);
     doc.text(plainText, xCenter, yCenter - 1, null, null, 'center');
 
     doc.setFont('Braile');
+    doc.setTextColor(4, 4, 4);
+    doc.setFontSize(42.68);
     doc.text(braille, xCenter, yCenter + 1, null, null, 'center');
 
     doc.save(plainText);
@@ -187,10 +192,7 @@ export function Home() {
                 </div>
               </div>
 
-              {/* 
-
-              Background color
-
+              {/* Background color*/}
               <div id="tool-bg-color">
                 <label className="block text-center text-sm font-medium mb-3 ">
                   Cor de fundo
@@ -206,10 +208,8 @@ export function Home() {
                   }}
                 />
               </div>
-              */}
 
-              {/* 
-              Font color 
+              {/* Font color */}
               <div id="tool-font-color">
                 <label className="block text-center text-sm font-medium mb-3 ">
                   Cor da fonte
@@ -225,9 +225,6 @@ export function Home() {
                   }}
                 />
               </div>
-              
-              */}
-
             </div>
 
             <div className="mt-4 flex gap-8 justify-between" id="editing">
