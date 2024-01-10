@@ -1,16 +1,15 @@
 import { useState } from 'react';
-import { useRef } from 'react';
 import jsPDF from 'jspdf';
 import { font } from '../components/BraileFont';
 export function Home() {
   const [braille, setBraille] = useState<string>('');
   const [plainText, setPlainText] = useState<string>('Plate');
-  const [textSize, setTextSize] = useState<number>(18);
-  const [Xlenght, setXlength] = useState<number>(16);
-  const [Ylenght, setYlenght] = useState<number>(8);
+  const [textSize, setTextSize] = useState<string>('18');
+  const [Xlenght, setXlength] = useState<string>('16');
+  const [Ylenght, setYlenght] = useState<string>('8');
   const [bgColor, setBgColor] = useState<string>('rgb(203, 213, 225)');
   const [fontColor, setFontColor] = useState<string>('rgb(17, 17, 17)');
-  const componentRef = useRef<HTMLDivElement>(null)!;
+
 
   console.log(fontColor);
 
@@ -21,13 +20,13 @@ export function Home() {
 
   // ? PDF Handler ? //
   const handleGeneratePdf = () => {
-    let xCenter = Xlenght / 2;
-    let yCenter = Ylenght / 2;
+    const xCenter = parseInt(Xlenght) / 2;
+    const yCenter = parseInt(Ylenght) / 2;
 
     const doc = new jsPDF({
       unit: 'cm',
       orientation: 'l',
-      format: [Xlenght, Ylenght],
+      format: [parseInt(Xlenght), parseInt(Ylenght)],
     });
 
     // adiciona a fonte Braille ao documento
@@ -35,17 +34,17 @@ export function Home() {
     doc.addFont('Braile.ttf', 'Braile', 'normal');
 
     doc.setFillColor(bgColor);
-    doc.rect(0, 0, Xlenght, Ylenght, "F");
+    doc.rect(0, 0, parseInt(Xlenght), parseInt(Ylenght), "F");
 
     doc.setFont('helvetica');
-    doc.setFontSize(textSize);
+    doc.setFontSize(parseInt(textSize));
     doc.setTextColor(fontColor);
-    doc.text(plainText, xCenter, yCenter - 1, null, null, 'center');
+    doc.text(plainText, xCenter, yCenter - 1, {align: 'center'});
 
     doc.setFont('Braile');
     doc.setTextColor(4, 4, 4);
     doc.setFontSize(42.68);
-    doc.text(braille, xCenter, yCenter + 1, null, null, 'center');
+    doc.text(braille, xCenter, yCenter + 1, {align: 'center'});
 
     doc.save(plainText);
   };
@@ -53,19 +52,17 @@ export function Home() {
   // ? $ Text Handler ?
   function handleText(text: string) {
     const brailleArray: any = [];
-    let upperQtd;
-    let numberQtd;
     setPlainText(text);
 
     const uppercaseRegex = /[A-Z]/g;
     const uppercaseLetters = text.match(uppercaseRegex);
     setUpper(uppercaseLetters ? uppercaseLetters.length : 0);
-    upperQtd = uppercaseLetters ? uppercaseLetters.length : 0;
+    const upperQtd = uppercaseLetters ? uppercaseLetters.length : 0;
 
     const numberRegex = /[0-9]/g;
     const numberCharacter = text.match(numberRegex);
     setNumber(numberCharacter ? numberCharacter.length : 0);
-    numberQtd = numberCharacter ? numberCharacter.length : 0;
+    const numberQtd = numberCharacter ? numberCharacter.length : 0;
 
     const blankspacesRegex = /[\s]/g;
     const numberBlankspaces = text.match(blankspacesRegex);
@@ -78,7 +75,7 @@ export function Home() {
     // ? Each upper case letter ? //
     if (upperQtd !== 0 && upperQtd !== text.length) {
       for (let i = 0; i < text.length; i++) {
-        let letter = text.charAt(i);
+        const letter = text.charAt(i);
         if (letter === letter.toUpperCase() && letter !== ' ') {
           brailleArray.push('*' + letter);
         } else {
@@ -119,7 +116,6 @@ export function Home() {
               height: `${Ylenght}cm`,
               backgroundColor: bgColor,
             }}
-            ref={componentRef}
             className="flex flex-col items-center justify-center drop-shadow-lg"
           >
             {/* Normal Text input */}
