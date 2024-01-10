@@ -91,7 +91,7 @@ export function Home() {
     }
 
     // ? Full uppercase phrases ? //
-    if (text.length === upperQtd && text.length !== 0) {
+    if (text.length === upperQtd || text.length === upperQtd+spaces && text.length !== 0) {
       brailleArray.push('AA');
       for (let i = 0; i < text.length; i++) {
         const letter = text.charAt(i);
