@@ -4,9 +4,9 @@ import { font } from '../components/BraileFont';
 export function Home() {
   const [braille, setBraille] = useState<string>('');
   const [plainText, setPlainText] = useState<string>('Plate');
-  const [textSize, setTextSize] = useState<number>(18);
-  const [Xlenght, setXlength] = useState<number>(16);
-  const [Ylenght, setYlenght] = useState<number>(8);
+  const [textSize, setTextSize] = useState<string>('18');
+  const [Xlenght, setXlength] = useState<string>('16');
+  const [Ylenght, setYlenght] = useState<string>('8');
   const [bgColor, setBgColor] = useState<string>('rgb(203, 213, 225)');
   const [fontColor, setFontColor] = useState<string>('rgb(17, 17, 17)');
 
@@ -20,13 +20,13 @@ export function Home() {
 
   // ? PDF Handler ? //
   const handleGeneratePdf = () => {
-    const xCenter = Xlenght / 2;
-    const yCenter = Ylenght / 2;
+    const xCenter = parseInt(Xlenght) / 2;
+    const yCenter = parseInt(Ylenght) / 2;
 
     const doc = new jsPDF({
       unit: 'cm',
       orientation: 'l',
-      format: [Xlenght, Ylenght],
+      format: [parseInt(Xlenght), parseInt(Ylenght)],
     });
 
     // adiciona a fonte Braille ao documento
@@ -34,10 +34,10 @@ export function Home() {
     doc.addFont('Braile.ttf', 'Braile', 'normal');
 
     doc.setFillColor(bgColor);
-    doc.rect(0, 0, Xlenght, Ylenght, "F");
+    doc.rect(0, 0, parseInt(Xlenght), parseInt(Ylenght), "F");
 
     doc.setFont('helvetica');
-    doc.setFontSize(textSize);
+    doc.setFontSize(parseInt(textSize));
     doc.setTextColor(fontColor);
     doc.text(plainText, xCenter, yCenter - 1, {align: 'center'});
 
