@@ -33,6 +33,8 @@ export function Home() {
     doc.addFileToVFS('Braile.ttf', font);
     doc.addFont('Braile.ttf', 'Braile', 'normal');
 
+
+    //background color
     doc.setFillColor(bgColor);
     doc.rect(0, 0, parseInt(Xlenght), parseInt(Ylenght), "F");
 
@@ -90,14 +92,22 @@ export function Home() {
 
     // ? Full uppercase phrases ? //
     if (text.length === upperQtd && text.length !== 0) {
-      brailleArray.push('**');
+      brailleArray.push('AA');
+      for (let i = 0; i < text.length; i++) {
+        const letter = text.charAt(i);
+        brailleArray.push(letter.toLowerCase());
+      }
+      setBraille(brailleArray.toString().replaceAll(',', ''));
+      return;
+
+      
     }
     // ? Each upper case letter ? //
     if (upperQtd !== 0 && upperQtd !== text.length) {
       for (let i = 0; i < text.length; i++) {
         const letter = text.charAt(i);
         if (letter === letter.toUpperCase() && letter !== ' ') {
-          brailleArray.push('*' + letter);
+          brailleArray.push('A' + letter.toLowerCase());
         } else {
           brailleArray.push(letter);
         }
@@ -108,7 +118,7 @@ export function Home() {
 
     // ? All numbers phrases ? //
     if (text.length === numberQtd && text.length !== 0) {
-      brailleArray.push('$');
+      brailleArray.push('B');
     }
 
     brailleArray.push(text);
