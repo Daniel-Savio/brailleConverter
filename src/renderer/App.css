@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+#title-bar{
+    -webkit-app-region: drag;
+}
+
+#header-tools{
+    -webkit-app-region: no-drag;
+}
+
 @font-face {
     font-family: Braile;
     src: url('../public/fonts/Braille.ttf');
