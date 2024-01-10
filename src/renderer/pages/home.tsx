@@ -12,6 +12,8 @@ export function Home() {
   const [fontColor, setFontColor] = useState<string>('rgb(4, 4, 4)');
   const componentRef = useRef<HTMLDivElement>(null)!;
 
+  console.log(fontColor)
+
   // Contadores
   const [number, setNumber] = useState<number>(0);
   const [upper, setUpper] = useState<number>(0);
